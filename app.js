@@ -33,3 +33,45 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+function askForEmployee(){
+    console.log 
+}
+function askForManager(){
+
+}
+function askForEngineer(){
+
+}
+function askForIntern(){
+
+}
+function askForTypeOfEmployee(){
+    // console.log("test");
+    return inquirer.prompt([
+        {
+            type: "list",
+            message: "What is the type of the employee",
+            choices: [
+                "Employee",
+                "Manager",
+                "Engineer",
+                "Intern",
+                "Exit Program"
+            ],
+            name: "typeOfEmployee"
+        }
+    ]).then( response => {
+        console.log(response);
+        switch (response.typeOfEmployee){
+            case "Employee":
+                askForEmployee();
+                break;
+            default:
+                break;
+        }
+    });
+}  
+askForTypeOfEmployee().then(()=>{
+    // final steps here
+});
