@@ -9,6 +9,9 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { resourceUsage } = require("process");
+
+const allEmployees = []
 
 
 // Write code to use inquirer to gather information about the development team members,
@@ -35,13 +38,65 @@ const render = require("./lib/htmlRenderer");
 // for the provided `render` function to work! ```
 
 function askForEmployee(){
-    console.log 
+    console.log("test");  return inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the name of the employee",
+            name: "name"
+        },
+        {
+            type: "input",
+            message:"what is the employee id?",
+            name:"id"
+        },
+        {
+            type: "input",
+            message:"what is the employee's email address?",
+            name: "email"
+        }
+    ]).then( response => {
+        console.log(response);
+        console.log(response.email);
+        console.log(response.id);
+        console.log(response.name);
+    });
 }
 function askForManager(){
 
 }
 function askForEngineer(){
+    console.log("test");  return inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the name of the employee",
+            name: "name"
+        },
+        {
+            type: "input",
+            message:"what is the employee id?",
+            name:"id"
+        },
+        {
+            type: "input",
+            message:"what is the employee's email address?",
+            name: "email"
+        },
+        {
+          type:"input",
+          message:"what is the employees github?",
+          name:"github"
 
+        }
+    ]).then( response => {
+        console.log(response);
+        console.log(response.email);
+        console.log(response.id);
+        console.log(response.name);
+
+        allEmployees.push(new Engineer(response.name,response.id,response.email,response.github))
+        console.log(allEmployees);
+        return askForTypeOfEmployee();
+    });
 }
 function askForIntern(){
 
@@ -53,7 +108,6 @@ function askForTypeOfEmployee(){
             type: "list",
             message: "What is the type of the employee",
             choices: [
-                "Employee",
                 "Manager",
                 "Engineer",
                 "Intern",
@@ -64,9 +118,8 @@ function askForTypeOfEmployee(){
     ]).then( response => {
         console.log(response);
         switch (response.typeOfEmployee){
-            case "Employee":
-                askForEmployee();
-                break;
+            case "Engineer":
+                return askForEngineer();
             default:
                 break;
         }
@@ -74,4 +127,9 @@ function askForTypeOfEmployee(){
 }  
 askForTypeOfEmployee().then(()=>{
     // final steps here
+    // console.log(render(allEmployees));
+    fs.writeFile('team.html', render(allEmployees), function (err) {
+      if (err) return console.log(err);
+      console.log('Hello World > helloworld.txt');
+    });
 });
